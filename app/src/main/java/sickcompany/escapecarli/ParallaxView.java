@@ -10,11 +10,7 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
-/**
- * Created by DUMORA on 10/27/2017.
- */
-
-class ParallaxView extends SurfaceView implements Runnable {
+public class ParallaxView extends SurfaceView implements Runnable {
 
     ArrayList<Background> backgrounds;
     Player player;
@@ -26,9 +22,11 @@ class ParallaxView extends SurfaceView implements Runnable {
     private Canvas canvas;
     private SurfaceHolder ourHolder;
 
+    boolean isPaused = false;
+
     Context context;
 
-    long fps =60;
+    long fps = 60;
 
     int screenWidth;
     int screenHeight;
@@ -58,18 +56,18 @@ class ParallaxView extends SurfaceView implements Runnable {
                 this.context,
                 screenWidth,
                 screenHeight,
-                "foreground",  0, 105, 200));
+                "foreground", 0, 105, 200));
 
         backgrounds.add(new Background(
                 this.context,
                 screenWidth,
                 screenHeight,
-                "back_buildings",  0, 110, 150));
+                "back_buildings", 0, 110, 150));
         backgrounds.add(new Background(
                 this.context,
                 screenWidth,
                 screenHeight,
-                "far_buildings",  0, 110, 100));
+                "far_buildings", 0, 110, 100));
     }
 
     @Override
@@ -89,10 +87,12 @@ class ParallaxView extends SurfaceView implements Runnable {
     }
 
     private void update() {
-        for (Background bg : backgrounds) {
-            bg.update(fps);
+        if (running) {
+            for (Background bg : backgrounds) {
+                bg.update(fps);
+            }
+            player.update();
         }
-        player.update();
     }
 
     private void drawBackground(int position) {
@@ -104,7 +104,7 @@ class ParallaxView extends SurfaceView implements Runnable {
         // what coordinates of screen to draw them at
 
         // For the regular bitmap
-        Rect fromRect1 = new Rect(0, 0, bg.width - bg.xClip,  bg.height);
+        Rect fromRect1 = new Rect(0, 0, bg.width - bg.xClip, bg.height);
         Rect toRect1 = new Rect(bg.xClip, bg.startY, bg.width, bg.endY);
 
         // For the reversed background
@@ -152,6 +152,7 @@ class ParallaxView extends SurfaceView implements Runnable {
         running = false;
         try {
             gameThread.join();
+            player.pause();
         } catch (InterruptedException e) {
             // Error
         }
@@ -165,4 +166,3 @@ class ParallaxView extends SurfaceView implements Runnable {
     }
 
 }
-

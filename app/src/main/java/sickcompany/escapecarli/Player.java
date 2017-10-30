@@ -19,6 +19,7 @@ public class Player {
 
     boolean isMoving = true;
     boolean isJumping = false;
+    boolean isPaused = false;
 
     int width;
     int height;
@@ -51,17 +52,23 @@ public class Player {
         }
     }
 
+    public void pause() {
+        isPaused = true;
+    }
+
     public void update() {
         long time = System.currentTimeMillis();
-        if (isMoving) {
-            if (time > lastFrameChange + FrameLength) {
-                lastFrameChange = time;
-                currentRunningFrame++;
-                if (currentRunningFrame >= nbrFrame)
-                    currentRunningFrame = 0;
+        if (!isPaused) {
+            if (isMoving) {
+                if (time > lastFrameChange + FrameLength) {
+                    lastFrameChange = time;
+                    currentRunningFrame++;
+                    if (currentRunningFrame >= nbrFrame)
+                        currentRunningFrame = 0;
+                }
+            } else if (isJumping) {
+                currentRunningFrame = 0;
             }
-        } else if (isJumping) {
-            currentRunningFrame = 0;
         }
     }
         public void draw(Canvas canvas, Paint paint) {

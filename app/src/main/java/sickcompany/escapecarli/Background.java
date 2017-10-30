@@ -38,7 +38,7 @@ public class Background {
     }
 
     public void update(long fps){
-        xClip -= speed/fps;
+        xClip -= speed / fps;
         if (xClip >= width) {
             xClip = 0;
         } else if (xClip <= 0) {

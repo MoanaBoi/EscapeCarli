@@ -1,12 +1,10 @@
 package sickcompany.escapecarli;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.Point;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.Window;
 
 public class MainActivity extends Activity {
 
@@ -16,6 +14,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         // Get a Display object to access screen details
         Display display = getWindowManager().getDefaultDisplay();
 
